@@ -6,6 +6,7 @@ from src.exception import CustomException
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.logger import logging
+from src.components.Data_processing import process_data
 
 
 @dataclass
@@ -54,5 +55,12 @@ class Data_Ingestion:
 
 
 if __name__ == "__main__":
-    obj = Data_Ingestion()
-    train_data_path, test_data_path, val_data_path = obj.intialize_data_ingestion()
+    data_ingest_obj = Data_Ingestion()
+    (
+        train_data_path,
+        test_data_path,
+        val_data_path,
+    ) = data_ingest_obj.intialize_data_ingestion()
+
+    data_process_obj = process_data()
+    train_arr = data_process_obj.intialize_data_processing(train_data_path)
