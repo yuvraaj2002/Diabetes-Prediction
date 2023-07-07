@@ -3,5 +3,6 @@ pandas
 black
 scikit-learn
 dill
+streamlit
 
 -e .
