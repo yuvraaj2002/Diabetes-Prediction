@@ -60,20 +60,21 @@ class process_data:
             train_data = pd.read_csv(train_path)
 
             # Seperating out the input features and target variable
-            input_features = train_data[train_data.columns[:-1]].values
-            output_variable = train_data[train_data.columns[-1]].values
+            X_train = train_data[train_data.columns[:-1]]
+            y_train = train_data[train_data.columns[-1]]
             logging.info("Separated the data into dependent and indpendent data")
 
             # Let's processing the data
             pipeline_object = self.build_pipeline()
-            train_data = pipeline_object.fit_transform(train_data)
+            X_train = pipeline_object.fit_transform(X_train)
 
-            train_arr = np.c_[train_data, np.array(output_variable)]
+            #train_arr = np.c_[train_data, np.array(output_variable)]
 
+            # Let's save the pipeline as pickle file
             save_object(file_path=self.processor_path_variable.processor_path, obj=pipeline_object)
+            logging.info("Pipeline saved succesfully as pickle file")
 
-
-            return (train_arr, self.processor_path_variable.processor_path)
+            return (X_train,y_train, self.processor_path_variable.processor_path)
 
         except Exception as e:
             raise CustomException(e, sys)
