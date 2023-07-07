@@ -8,7 +8,7 @@ st.title("Diabetes Prediction Model")
 
 # Show the user input
 st.sidebar.write(
-    "This application based on your input data will help to predict that whether a person is having a diabetes or not."
+    "This application based on your input data will help predict whether a person has diabetes or not."
 )
 
 
@@ -29,18 +29,15 @@ def get_user_input():
     user_data = {
         "Pregnancies": pregnancies,
         "Glucose": glucose,
-        "Blood Pressure": blood_pressure,
-        "Skin Thickness": skin_thickness,
+        "BloodPressure": blood_pressure,
+        "SkinThickness": skin_thickness,
         "Insulin": insulin,
         "BMI": bmi,
-        "Diabetes Pedigree Function": diabetes_pedigree,
+        "DiabetesPedigreeFunction": diabetes_pedigree,
         "Age": age,
     }
 
     return user_data
-
-    # features = pd.DataFrame(user_data, index=[0])
-    # return features
 
 
 # Get user input
@@ -51,3 +48,16 @@ user_input_df = prediction_obj.build_dataframe(user_input_dict)
 # Show the user input
 st.subheader("User Input:")
 st.write(user_input_df)
+
+# Add a "Predict" button
+if st.button("Predict"):
+
+    # Let's get the predictions
+    output = prediction_obj.predict(user_input_df)
+
+    # Convert the output value to "No" or "Yes"
+    st.subheader("Output:")
+    if output == 0:
+        st.write("No diabetes")
+    else:
+        st.write("Diabetic")
