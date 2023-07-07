@@ -1,5 +1,4 @@
 import os
-import os
 import sys
 import pandas as pd
 from src.exception import CustomException
@@ -7,10 +6,12 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.logger import logging
 from src.components.Data_processing import process_data
+from src.components.Model_training import training
 
 
 @dataclass
 class Data_Ingestion_Configuration:
+
     # Let's specify the path where we will store out train,test and validation data
     train_path = os.path.join("artifacts", "train.csv")
     test_path = os.path.join("artifacts", "test.csv")
@@ -18,6 +19,7 @@ class Data_Ingestion_Configuration:
 
 
 class Data_Ingestion:
+
     def __init__(self):
         self.data_storage_paths = Data_Ingestion_Configuration()
 
@@ -63,4 +65,10 @@ if __name__ == "__main__":
     ) = data_ingest_obj.intialize_data_ingestion()
 
     data_process_obj = process_data()
-    train_arr = data_process_obj.intialize_data_processing(train_data_path)
+    X_train,y_train,pipeline_path = data_process_obj.intialize_data_processing(train_data_path)
+
+    train_obj = training()
+    print("F1 Score : ",train_obj.initialize_training(X_train,y_train,test_data_path,pipeline_path))
+
+
+
